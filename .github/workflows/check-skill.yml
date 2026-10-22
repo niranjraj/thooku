@@ -1,0 +1,21 @@
+name: Check skill
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: SKILL.md frontmatter parses and references resolve
+        run: |
+          npm install --no-save --no-package-lock yaml@2.6.1
+          node tests/frontmatter.mjs
+      - name: Plugin manifest is valid JSON
+        run: node -e "JSON.parse(require('fs').readFileSync('.claude-plugin/marketplace.json','utf8'))"
