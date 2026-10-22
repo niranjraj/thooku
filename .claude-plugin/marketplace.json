@@ -8,7 +8,7 @@
     {
       "name": "thooku",
       "description": "Reverse-engineer a website's visual design and behavior from one or more URLs into an evidence-based, implementation-ready report.",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "source": "./",
       "skills": ["./skills/thooku"],
       "author": {

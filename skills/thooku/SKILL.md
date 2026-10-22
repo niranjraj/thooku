@@ -59,8 +59,12 @@ Do not ask questions that are not necessary to begin.
 ## Workflow
 
 ### Phase 0 — Tooling preflight
-1. Check for a browser tool: `playwright-cli --help`, then `npx playwright-cli --help`, or any browser/MCP tool you already have.
-2. If none is available, ask the user before installing anything. Name the commands: `npm install -g @playwright/cli@latest`, plus Chrome, or `playwright-cli install-browser chromium` and then `--browser=chromium` on `open`. State that the Chromium download is about 120 MB. See `references/tooling.md`.
+1. Check for a browser tool in this order, and use the first one found:
+   - a Playwright MCP server already connected (tools such as `browser_navigate` and `browser_run_code`, from any plugin or config);
+   - `playwright-cli --help`, then `npx playwright-cli --help`;
+   - any other browser tool you already have.
+   Thooku does not bundle a browser server. Never add a second Playwright MCP when one is already connected.
+2. If none is available, ask the user before installing anything. Offer the Playwright MCP (`claude mcp add playwright -- npx @playwright/mcp@latest`) or the CLI (`npm install -g @playwright/cli@latest`, plus Chrome, or `playwright-cli install-browser chromium` and then `--browser=chromium` on `open`). State that the Chromium download is about 120 MB. See `references/tooling.md`.
 3. If the user declines or the install fails, use static mode and say that dynamic behavior is unverified.
 4. Record the tool and version in Inspection coverage.
 
@@ -127,6 +131,19 @@ Deliver tokens in both a readable table and copy-ready CSS variables, covering:
 - motion durations, easing, and reduced-motion rules.
 
 Include a confidence column or label. Keep observed values distinct from inferred normalized tokens.
+
+#### Color swatches (required)
+Every color the report lists as a palette or token entry must show a rendered swatch next to its code. A bare hex, `rgb()` or `hsl()` string is not enough, because the reader cannot judge a color from its code.
+
+- Give each color table a `Swatch` column directly after the token name. Fill it with a chip image: `![#1d1d1f](https://placehold.co/64x24/1d1d1f/f5f5f7.png?text=1d1d1f)`. The path is `/{width}x{height}/{background hex}/{text hex}.png`, with the hex written without `#`. Pick the text color (`ffffff` or `000000`) for contrast against the chip.
+- Keep the code in the value column. The swatch adds to the code; it does not replace it.
+- For a color with alpha, composite it over its stated backdrop, show the solid result, and write the backdrop in the value cell (for example `rgba(255,255,255,0.8)` over `#f5f5f7`). If the backdrop varies, show the color over white and say so.
+- For a gradient, show one chip per stop, in order.
+- A multi-state entry (base, hover, active) gets one chip per state, each labeled.
+- Add a chip to any contrast pair, so both colors in `3.6:1 on white` are visible.
+- Lead the palette section with a compact strip of the main colors (surface, text, accent, and any highlight), then give the full table.
+- Shadows, blurs and other non-color values get no swatch.
+- If the user's viewer cannot load remote images (offline use or a blocked host), say so and use inline HTML instead: `<span style="display:inline-block;width:1em;height:1em;background:#1d1d1f;border:1px solid #8884"></span>`.
 
 ### Phase 5 — Component and page-flow inventory
 Create a component inventory with:
@@ -195,7 +212,7 @@ Keep all observations attributable to their source site and page. Never combine 
 2. **Cross-site matrix:** compare like-for-like attributes and label each value by site. Use `Not observed` rather than assuming absence.
 
 Recommended matrix rows:
-- color and semantic palette;
+- color and semantic palette, with swatches (see Phase 4);
 - font families and type scale;
 - spacing and grid system;
 - content width and breakpoints;

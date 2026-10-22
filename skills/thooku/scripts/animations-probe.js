@@ -1,6 +1,7 @@
 // thooku animations probe: lists every animation running on the page right now
 // (page-load reveals, looping animations, marquees, spinners).
 // Usage: playwright-cli run-code --filename=<skill-dir>/scripts/animations-probe.js
+//    or: pass this file's contents to the Playwright MCP tool browser_run_code.
 async page => page.evaluate(() =>
   document.getAnimations().map(a => {
     const t = a.effect.getTiming();

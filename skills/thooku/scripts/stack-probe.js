@@ -1,5 +1,6 @@
 // thooku stack probe: detects front-end frameworks, motion libraries, and motion-related page facts.
 // Usage: playwright-cli run-code --filename=<skill-dir>/scripts/stack-probe.js
+//    or: pass this file's contents to the Playwright MCP tool browser_run_code.
 // Every hit is a heuristic. Report it as Observed (global or DOM marker found) or Inferred (script URL only).
 async page => page.evaluate(() => {
   const q = s => !!document.querySelector(s);

@@ -4,6 +4,26 @@ Thooku itself is an instruction skill. It does not require a paid API. Its abili
 
 ## Recommended free stack
 
+### Option A0 — Playwright MCP (use it if already connected)
+Thooku does not bundle a browser server, because many setups already have a Playwright MCP from another plugin and a second copy would duplicate it. Thooku uses whichever one is connected. To add one:
+
+```bash
+claude mcp add playwright -- npx @playwright/mcp@latest
+```
+
+The probes in `scripts/` are `async page => ...` functions, which is the shape `browser_run_code` takes. Pass the file's contents as the code argument.
+
+| CLI | MCP tool |
+| --- | --- |
+| `open <url>` | `browser_navigate` |
+| `resize <w> <h>` | `browser_resize` |
+| `screenshot` | `browser_take_screenshot` |
+| `eval "<fn>"` | `browser_evaluate` |
+| `snapshot` | `browser_snapshot` |
+| `run-code --filename=<file>` | `browser_run_code` |
+
+The one-call timing rule still applies: keep trigger and measurement in one `browser_run_code` call. If `browser_run_code` is not exposed, enable the optional capability in the server config, or use the CLI.
+
 ### Option A — Claude Code + Playwright CLI (recommended for dynamic pages)
 Playwright is an open-source browser automation framework. The CLI is useful for agent-driven inspection and has a skill install flow.
 

@@ -2,6 +2,12 @@
 
 All notable changes to thooku are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project uses [Semantic Versioning](https://semver.org/).
 
+## [1.2.0] - 2026-10-22
+
+### Added
+- Color swatch rule in Phase 4: every palette and token color shows a rendered chip next to its code.
+- Playwright MCP support: Phase 0 uses a connected MCP first, then the CLI. No server is bundled, so existing MCPs are not duplicated.
+
 ## [1.1.0] - 2026-10-22
 
 ### Added
@@ -29,5 +35,6 @@ All notable changes to thooku are documented here. The format follows [Keep a Ch
 - Claude Code plugin marketplace manifest.
 - CI check for SKILL.md frontmatter and a tag-triggered release workflow that attaches `thooku.zip`.
 
+[1.2.0]: https://github.com/niranjraj/thooku/releases/tag/v1.2.0
 [1.1.0]: https://github.com/niranjraj/thooku/releases/tag/v1.1.0
 [1.0.0]: https://github.com/niranjraj/thooku/releases/tag/v1.0.0

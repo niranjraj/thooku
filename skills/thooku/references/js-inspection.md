@@ -1,6 +1,6 @@
 # Thooku JavaScript and motion inspection
 
-Three Playwright CLI probes live in `scripts/`. Each file's header comment explains its use. They need a running browser session (`playwright-cli open <url>`; see `tooling.md`).
+Three Playwright CLI probes live in `scripts/`. Each file's header comment explains its use. They need a running browser session (`playwright-cli open <url>`, or `browser_navigate` on a Playwright MCP; see `tooling.md`). With an MCP, pass the file's contents to `browser_run_code` instead of using `--filename`.
 
 Do not deobfuscate, reformat, or reproduce proprietary JavaScript. Read loaded scripts only to identify libraries and behavior.
 

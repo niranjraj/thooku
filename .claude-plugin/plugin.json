@@ -1,7 +1,7 @@
 {
   "name": "thooku",
   "description": "Website design reconnaissance for coding agents. Turn URLs into design tokens, motion specs, component inventories, and a free-first rebuild plan.",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "author": {
     "name": "Niranj Raj"
   },
