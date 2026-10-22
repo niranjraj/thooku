@@ -233,6 +233,8 @@ assets/                              README banners
 
 thooku is not affiliated with or endorsed by Anthropic, Microsoft (Playwright), or any company or site it names. You are responsible for complying with the terms of the sites you inspect and with applicable law. Output is for learning and design reference.
 
+thooku reports what a page publicly exposes: computed styles, tokens, layout, and motion. It does not grant any right to the site's code, copy, images, icons, fonts, logos, or brand identity. Those may be protected by copyright, font licenses, or trademark law. When you rebuild from a report, use your own or properly licensed assets, and do not copy a site's branding or present your work as that site. Only inspect sites you are allowed to access, and respect `robots.txt` and rate limits. This is not legal advice.
+
 ## License
 
 [MIT License](LICENSE) · Copyright (c) 2026 Niranj Raj
