@@ -21,15 +21,44 @@ npm install -D @playwright/cli@latest
 npx playwright-cli --help
 ```
 
+**Browser requirement.** `@playwright/cli` opens the Chrome channel by default. Without Chrome installed, `open` fails with:
+
+```text
+Chromium distribution 'chrome' is not found at /opt/google/chrome/chrome
+```
+
+Fix it one of two ways:
+- Install Chrome.
+- Or install Playwright's Chromium (about 120 MB, no sudo) and select it on `open`:
+
+```bash
+playwright-cli install-browser chromium
+playwright-cli open --browser=chromium https://example.com
+```
+
+On Linux, Chromium may also need system libraries: `playwright-cli install-browser --with-deps` (this can need sudo).
+
+Ask the user before installing anything.
+
 Typical inspection commands:
 ```bash
-playwright-cli open https://example.com
+playwright-cli open https://example.com   # add --browser=chromium if Chrome is not installed
 playwright-cli resize 390 844
 playwright-cli screenshot
 playwright-cli eval "() => getComputedStyle(document.body).fontFamily"
 playwright-cli close
 playwright-cli --help   # full command list (resize, eval, snapshot, etc.)
 ```
+
+`npx playwright-cli` is the local command for a project-local install. `npx playwright cli` belongs to a different package.
+
+#### Probes
+`skills/thooku/scripts/` holds three probes, each run with `playwright-cli run-code --filename=<file>`:
+- `stack-probe.js` detects frameworks and motion libraries.
+- `animations-probe.js` lists running animations.
+- `motion-probe.js` measures one interaction (copy it, then edit selector, trigger, and props).
+
+Usage and result fields are in `references/js-inspection.md`.
 
 Official docs:
 - https://playwright.dev/agent-cli/installation

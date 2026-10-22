@@ -19,3 +19,10 @@ jobs:
           node tests/frontmatter.mjs
       - name: Plugin manifest is valid JSON
         run: node -e "JSON.parse(require('fs').readFileSync('.claude-plugin/marketplace.json','utf8'))"
+      - name: Probe scripts parse
+        run: |
+          for f in skills/thooku/scripts/*.js; do
+            tmp="$(mktemp --suffix=.js)"
+            { printf 'module.exports = '; cat "$f"; } > "$tmp"
+            node --check "$tmp" && echo "ok $f"
+          done

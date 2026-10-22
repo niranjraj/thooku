@@ -20,7 +20,7 @@
 <p align="center">
   <a href="https://agentskills.io"><img src="https://img.shields.io/badge/Agent_Skills-compatible-3aa0ff?style=flat" alt="Agent Skills compatible" /></a>
   &nbsp;
-  <a href="https://docs.claude.com/en/docs/claude-code/plugins"><img src="https://img.shields.io/badge/Claude_Code-plugin-d97757?style=flat&logo=anthropic&logoColor=white" alt="Claude Code plugin" /></a>
+  <a href="https://docs.claude.com/en/docs/claude-code/plugins"><img src="https://img.shields.io/badge/Claude_Code-plugin-d97757?style=flat" alt="Claude Code plugin" /></a>
   &nbsp;
   <img src="https://img.shields.io/badge/API_keys-none-2ea043?style=flat" alt="No API keys required" />
   &nbsp;
@@ -111,7 +111,7 @@ A single report, in this order:
 | 7 | Motion and transitions | Trigger, properties, duration, easing, reduced-motion notes |
 | 8 | Responsive behavior | Desktop, tablet, and mobile differences, breakpoints |
 | 9 | User flows | Key journeys and branching states |
-| 10 | Asset inventory | Sources, formats, purpose, license confidence |
+| 10 | Asset and dependency inventory | Sources, formats, purpose, license confidence, frameworks and motion libraries |
 | 11 | Free alternative map | Paid item, free replacement, trade-offs |
 | 12 | Implementation blueprint | File and component plan, order of work, risks |
 | 13 | Evidence and uncertainty | Observed vs inferred vs not inspected |
@@ -133,8 +133,8 @@ Tokens come out ready to paste. An illustrative excerpt:
 ## How it works
 
 1. **Scope and access.** Normalizes the URL, checks redirects and login walls, reads `robots.txt`, stays on the same origin.
-2. **Structure and visuals.** Screenshots and DOM, computed styles for representative elements, CSS custom properties, fonts, and assets, repeated at three viewports.
-3. **Interactions and motion.** Hovers, focus, menus, dialogs, accordions, scroll effects. Records trigger, start and end state, properties, duration, and easing for each.
+2. **Structure and visuals.** Screenshots and DOM, computed styles for representative elements, CSS custom properties, fonts, and assets, repeated at three viewports. Stack detection names the frameworks and motion libraries (GSAP, Lenis, Lottie, and others).
+3. **Interactions and motion.** Hovers, focus, menus, dialogs, accordions, scroll effects. Records trigger, start and end state, properties, duration, and easing for each. Reads `document.getAnimations()` for exact CSS and Web Animations timing, and samples frames to time JS-driven motion.
 4. **Design system.** Groups repeated values into semantic tokens and keeps measured values apart from inferred ones.
 5. **Components and flows.** Inventories components with variants and states, and maps journeys without submitting anything irreversible.
 6. **Assets and dependencies.** Lists fonts, icons, images, and services, and finds a free or open-source alternative for every paid one.
@@ -147,11 +147,16 @@ Pass several URLs and thooku switches to comparison mode. It builds a site regis
 ## Requirements
 
 - **No API keys and no paid services.** The skill is plain instructions.
-- **For live inspection** (menus, animation, responsive behavior), the agent needs a browser. The free, recommended route is the [Playwright CLI](https://www.npmjs.com/package/@playwright/cli):
+- **For live inspection** (menus, animation, responsive behavior), the Playwright CLI and Chrome or Chromium are required. The free, recommended route is the [Playwright CLI](https://www.npmjs.com/package/@playwright/cli):
 
   ```bash
   npm install -g @playwright/cli@latest
+  # then either install Chrome, or download Chromium (about 120 MB, no sudo):
+  playwright-cli install-browser chromium
+  playwright-cli open --browser=chromium https://example.com
   ```
+
+  On Linux, Chromium may also need `install-browser --with-deps`. The skill asks before installing anything.
 
   Setup options, including Python and static-only, are in [`skills/thooku/references/tooling.md`](skills/thooku/references/tooling.md).
 - **Without a browser,** thooku falls back to static HTML and CSS analysis and marks dynamic behavior as unverified.
@@ -201,10 +206,16 @@ node tests/frontmatter.mjs
 ```text
 skills/thooku/SKILL.md               the skill: workflow and output contract
 skills/thooku/references/tooling.md  free-first browser tooling setup
+skills/thooku/references/js-inspection.md  how to run and read the probes
+skills/thooku/scripts/               Playwright CLI probes: stack, animations, motion
 .claude-plugin/marketplace.json      Claude Code plugin marketplace manifest
 tests/frontmatter.mjs                frontmatter and reference checks
 assets/                              README banners
 ```
+
+## Disclaimer
+
+thooku is not affiliated with or endorsed by Anthropic, Microsoft (Playwright), or any company or site it names. You are responsible for complying with the terms of the sites you inspect and with applicable law. Output is for learning and design reference.
 
 ## License
 

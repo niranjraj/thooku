@@ -1,6 +1,6 @@
 ---
 name: thooku
-description: Reverse-engineer a website's visual design and behavior from one or more URLs. Use when asked to inspect, clone, analyze, document, compare, or rebuild a website's styling, UI, typography, design tokens, animations, transitions, responsive layouts, assets, components, or user flows, or to synthesize a design system from several reference sites.
+description: Reverse-engineer a website's visual design and behavior from one or more URLs. Use when asked to inspect, analyze, document, compare, or recreate the design patterns of a website's styling, UI, typography, design tokens, animations, transitions, responsive layouts, assets, components, or user flows, or to synthesize a design system from several reference sites.
 license: MIT
 ---
 
@@ -18,6 +18,7 @@ For the requested site, investigate and document:
 - component inventory and variants;
 - hover, focus, active, disabled, loading, expanded, selected, and error states;
 - animation, transitions, easing, duration, scroll effects, sticky behavior, and page transitions;
+- front-end stack, rendering approach, and animation/scroll libraries;
 - navigation, calls to action, forms, modals, menus, and major user journeys;
 - a free/open-source implementation path for every paid dependency or service suggested.
 
@@ -29,7 +30,7 @@ Do not merely describe screenshots. When tools permit, inspect the live page, DO
 2. **Use permitted access.** Respect site terms, robots instructions where applicable, authentication boundaries, rate limits, and copyright. Do not bypass CAPTCHAs, paywalls, access controls, or anti-bot defenses. Do not collect secrets or personal data.
 3. **Do not reproduce private functionality.** Only inspect accounts, environments, and pages the user is authorized to access. Avoid submitting destructive forms, purchases, messages, or other irreversible actions.
 4. **Efficient reconnaissance.** Start with a representative page and shared shell. Expand to more pages only when needed to understand unique templates or flows. Avoid crawling every URL by default.
-5. **Preserve attribution and originality.** Describe and implement reusable design patterns, but do not copy proprietary assets, text, brand marks, or source code wholesale unless the user has rights or permission. Prefer original or openly licensed replacement assets.
+5. **Preserve attribution and originality.** Describe and implement reusable design patterns, but do not copy proprietary assets, text, brand marks, or source code wholesale unless the user has rights or permission. Prefer original or openly licensed replacement assets. Do not produce a rebuild that a visitor could mistake for the original brand or site (trade dress): change brand color, logo, name, copy and imagery.
 6. **Free-first.** Use existing tools and local packages first. Before recommending a paid product, identify a capable free/open-source alternative and any meaningful trade-offs.
 7. **No false claims.** If browser automation, network access, or source inspection is unavailable, state the limitation and offer the best static analysis possible.
 
@@ -57,6 +58,12 @@ Do not ask questions that are not necessary to begin.
 
 ## Workflow
 
+### Phase 0 — Tooling preflight
+1. Check for a browser tool: `playwright-cli --help`, then `npx playwright-cli --help`, or any browser/MCP tool you already have.
+2. If none is available, ask the user before installing anything. Name the commands: `npm install -g @playwright/cli@latest`, plus Chrome, or `playwright-cli install-browser chromium` and then `--browser=chromium` on `open`. State that the Chromium download is about 120 MB. See `references/tooling.md`.
+3. If the user declines or the install fails, use static mode and say that dynamic behavior is unverified.
+4. Record the tool and version in Inspection coverage.
+
 ### Phase 1 — Scope and access
 1. Normalize the URL and identify its origin and likely page type.
 2. Check whether the page is reachable without login and whether it redirects.
@@ -72,11 +79,13 @@ When browser automation is available:
 4. Inspect DOM and computed styles for representative elements: body, headings, paragraphs, links, primary/secondary buttons, cards, inputs, navigation, footer, and overlays.
 5. Collect CSS custom properties, linked stylesheets, font declarations, image URLs, SVGs, and relevant animation declarations when accessible.
 6. Repeat at tablet and mobile widths. Check navigation collapse, grid changes, text wrapping, image crop, sticky elements, overflow, and touch-target size.
-7. Use screenshots and DOM evidence together. A screenshot alone is not enough to claim the original DOM or exact implementation.
+7. Run `scripts/stack-probe.js` on each template to detect frameworks and motion libraries (see `references/js-inspection.md`). Label a hit `Observed` when a global or DOM marker matched, `Inferred` when only a script URL matched.
+8. Use screenshots and DOM evidence together. A screenshot alone is not enough to claim the original DOM or exact implementation.
 
 If only HTTP/static access is available:
 - Fetch the public HTML and same-origin CSS/assets only within reasonable limits.
 - Parse stylesheet declarations and metadata; do not execute unknown scripts.
+- Read script URLs, file names, and inline JSON (for example `__NEXT_DATA__`) to identify libraries without executing scripts.
 - Mark dynamic behavior as unverified and do not claim to have tested it.
 - If browser inspection is unavailable, recommend the free Playwright path in `references/tooling.md`.
 
@@ -86,13 +95,19 @@ Inspect only safe, reversible interactions:
 - hover, focus-visible, active, disabled, selected, expanded, loading, success, and error states;
 - reduced-motion behavior if possible.
 
+Measure motion with the probes in `scripts/` (usage in `references/js-inspection.md`):
+- After load, run `scripts/animations-probe.js` to catch entrance and looping motion.
+- Measure each interaction with a copy of `scripts/motion-probe.js`. Report `getAnimations()` values as `Measured`. Report frame-sampled durations as `Measured ±1 frame`.
+- Check smooth scroll (Lenis/Locomotive), scroll-linked effects (ScrollTrigger, CSS scroll-timeline), and page transitions (View Transitions API, Barba, Swup).
+- Read loaded scripts only to identify libraries and behavior. Do not deobfuscate, reformat, or reproduce proprietary JavaScript.
+
 For each motion pattern record:
 - trigger and affected element;
 - start and end states;
 - properties changed (opacity, transform, height, color, shadow, etc.);
 - duration and delay, if measured;
 - easing/curve, if measured;
-- whether it is CSS, Web Animations API, canvas, video, or unknown;
+- motion source: CSS transition, CSS animation, Web Animations API, JS library (name it), canvas/WebGL, video, or unknown;
 - viewport/device conditions;
 - evidence and confidence.
 
@@ -248,7 +263,7 @@ Unless the user requests another format, produce a concise but detailed report i
 7. **Motion and transitions** — trigger, properties, measured values/estimates, reduced-motion notes.
 8. **Responsive behavior** — desktop/tablet/mobile differences and inferred breakpoints.
 9. **User flows** — important journeys and branching states.
-10. **Asset inventory** — sources, format, purpose, license confidence.
+10. **Asset and dependency inventory** — sources, format, purpose, license confidence, detected frameworks and motion libraries.
 11. **Free alternative map** — paid item, free replacement, trade-offs, setup.
 12. **Implementation blueprint** — file/component plan, order of work, risks.
 13. **Evidence and uncertainty** — what was directly observed vs inferred vs not inspected.
@@ -262,6 +277,7 @@ Before finishing, verify:
 - Measured values are not mixed with guesses.
 - Mobile layout and interaction states are addressed or explicitly out of scope.
 - Motion has triggers and end states, not just words like “smooth.”
+- JS-driven motion is attributed to a named library with timing, or marked Unknown.
 - The free alternative is actually free to use under its stated license and does not merely move the cost to an API bill.
 - Any paid service, API, browser, or deployment cost is disclosed.
 - The report is sufficient for a developer to begin reconstruction without repeatedly revisiting the source.
