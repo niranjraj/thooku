@@ -2,6 +2,13 @@
 
 All notable changes to thooku are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project uses [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+- Claude in Chrome support: Phase 0 detects the extension's `mcp__claude-in-chrome__*` tools, `references/tooling.md` has a tool mapping and session rules, and `scripts/chrome-motion-probe.js` measures motion without a single trigger-and-measure call.
+- README note on using thooku on claude.ai (static mode), and an `examples/` folder with contribution steps.
+- `CONTRIBUTING.md`, issue templates, a pull request template, and a README invitation to contribute.
+
 ## [1.2.0] - 2026-10-22
 
 ### Added

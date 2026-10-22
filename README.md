@@ -77,6 +77,8 @@ For a single project, copy into `.claude/skills/thooku` inside that project inst
 
 Download `thooku.zip` from the [latest release](https://github.com/niranjraj/thooku/releases/latest) and upload it under **Settings > Capabilities > Skills**. Availability depends on your plan and workspace settings.
 
+claude.ai has no connected browser by default, so thooku runs in static mode there: it reads the page's HTML and CSS and marks hover states, animation, and responsive behavior as `Unverified`. For best results, give it the URL and, if it cannot fetch the page, paste the page source or attach screenshots at desktop and mobile widths. For full dynamic inspection, use Claude Code with a browser tool (see [Requirements](#requirements)).
+
 </details>
 
 ## Usage
@@ -86,6 +88,8 @@ Download `thooku.zip` from the [latest release](https://github.com/niranjraj/tho
 ```
 
 With one URL and no other instructions, thooku runs a standard audit of the landing page plus up to three internal pages linked from the main navigation, at desktop (1440×900), tablet (768×1024), and mobile (390×844).
+
+Example reports are in [`examples/`](examples/).
 
 More things to ask:
 
@@ -159,6 +163,7 @@ Pass several URLs and thooku switches to comparison mode. It builds a site regis
   On Linux, Chromium may also need `install-browser --with-deps`. The skill asks before installing anything.
 
   Setup options, including Python and static-only, are in [`skills/thooku/references/tooling.md`](skills/thooku/references/tooling.md).
+- **Claude in Chrome works too.** If you use the Claude in Chrome extension, thooku uses its `mcp__claude-in-chrome__*` tools in new tabs of your own Chrome, so there is nothing to install. It runs with your sign-ins, so give it only the URLs you want inspected. Motion is measured with `scripts/chrome-motion-probe.js`: it records on the page's clock while the extension hovers or clicks. Details are in [`tooling.md`](skills/thooku/references/tooling.md).
 - **Without a browser,** thooku falls back to static HTML and CSS analysis and marks dynamic behavior as unverified.
 
 ## Common questions
@@ -194,7 +199,16 @@ Starring the repo also helps other people find it.
 
 ## Contributing
 
-Issues and pull requests are welcome. Before opening a pull request, run the same check CI runs:
+Collaborators are welcome. thooku is a young project, and you do not need to write code to help. Good ways to start:
+
+- **Run it on a site and report what it missed.** Open a [bug report](https://github.com/niranjraj/thooku/issues/new?template=bug_report.yml) with the URL and the part of the report that was wrong.
+- **Add an example report** under [`examples/`](examples/).
+- **Improve a probe.** Detect more frameworks and motion libraries in `scripts/stack-probe.js`.
+- **Test another agent or browser tool** and document what works in `references/tooling.md`.
+- **Pick a [good first issue](https://github.com/niranjraj/thooku/labels/good%20first%20issue).**
+- **Ask a question or share an idea** in [Discussions](https://github.com/niranjraj/thooku/discussions).
+
+If you want to keep helping, say so in an issue or discussion. Regular contributors can be invited as repository collaborators. Read [`CONTRIBUTING.md`](CONTRIBUTING.md) for the workflow. Before opening a pull request, run the same check CI runs:
 
 ```bash
 npm install --no-save --no-package-lock yaml@2.6.1
@@ -207,9 +221,11 @@ node tests/frontmatter.mjs
 skills/thooku/SKILL.md               the skill: workflow and output contract
 skills/thooku/references/tooling.md  free-first browser tooling setup
 skills/thooku/references/js-inspection.md  how to run and read the probes
-skills/thooku/scripts/               Playwright CLI probes: stack, animations, motion
+skills/thooku/scripts/               Browser probes: stack, animations, motion (Playwright CLI and Claude in Chrome)
 .claude-plugin/marketplace.json      Claude Code plugin marketplace manifest
 tests/frontmatter.mjs                frontmatter and reference checks
+examples/                            sample reports for public sites
+CONTRIBUTING.md                      how to contribute
 assets/                              README banners
 ```
 

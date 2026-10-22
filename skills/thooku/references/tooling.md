@@ -24,6 +24,32 @@ The probes in `scripts/` are `async page => ...` functions, which is the shape `
 
 The one-call timing rule still applies: keep trigger and measurement in one `browser_run_code` call. If `browser_run_code` is not exposed, enable the optional capability in the server config, or use the CLI.
 
+### Option A1 — Claude in Chrome (browser extension)
+Claude in Chrome acts in the user's own Chrome, in new tabs, with their existing sign-ins. Its tools are named `mcp__claude-in-chrome__*` and work only while Chrome is running with the extension connected. If only `enable__mcp__claude-in-chrome` is present, call it first. If the tools are deferred, load them in one ToolSearch call.
+
+Session rules:
+- Call `tabs_context_mcp` first, open a new tab with `tabs_create_mcp`, and close the tabs you opened when you finish.
+- The user may have to allow each site. If a call is waiting on that permission, say so and wait. Do not work around it.
+- The browser is signed in as the user. Inspect only the pages the user named. Do not click through authenticated areas, and never submit forms.
+- Do not trigger `alert`, `confirm`, or other modal dialogs. They block the extension until the user dismisses them. Avoid buttons that raise a confirmation.
+- If calls fail or time out after two or three tries, stop and tell the user. Do not keep retrying.
+
+| CLI | Claude in Chrome tool |
+| --- | --- |
+| `open <url>` | `navigate` |
+| `screenshot` | `computer` (screenshot action) |
+| `hover`, `click`, scroll | `computer` |
+| `snapshot` | `read_page` |
+| `eval "<fn>"` | `javascript_tool` |
+| console output | `read_console_messages` (pass `pattern` to filter) |
+| network list | `read_network_requests` (fonts, images, scripts for the asset inventory) |
+
+Claude in Chrome has no Playwright `page` object, so the probes run differently:
+
+- **`stack-probe.js` and `animations-probe.js`:** send the function that is passed to `page.evaluate` to `javascript_tool`, called as an immediately invoked function. Delete the comment lines, delete the leading `async page => page.evaluate(` and the final `)`, then wrap what remains: `(() => { ... })()`.
+- **`chrome-motion-probe.js`:** the one-call timing rule cannot hold, because hovering is a separate `computer` call. This probe records on the page's own clock instead. Copy it to a scratch directory, edit `selector`, `props` and `windowMs`, and send it to `javascript_tool`. Then trigger the interaction with `computer` before `windowMs` ends. Then send `window.__thookuRead()`. Timing comes from page timestamps, so tool delay does not enter the result. Label the result `Measured ±1 frame`.
+- **Responsive widths:** resize the browser window if a resize tool is available. If not, record that the viewport was not controlled, and mark the breakpoint behavior `Unknown`.
+
 ### Option A — Claude Code + Playwright CLI (recommended for dynamic pages)
 Playwright is an open-source browser automation framework. The CLI is useful for agent-driven inspection and has a skill install flow.
 

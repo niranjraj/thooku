@@ -1,0 +1,21 @@
+name: Idea or feature request
+description: Suggest an improvement to the skill, probes, or docs
+labels: [enhancement]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: What should thooku do?
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why does it matter?
+      description: Describe the site or workflow where you hit the gap.
+  - type: checkboxes
+    id: help
+    attributes:
+      label: Collaboration
+      options:
+        - label: I would like to help build this.

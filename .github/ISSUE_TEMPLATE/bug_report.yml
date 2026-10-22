@@ -1,0 +1,35 @@
+name: Bug report
+description: thooku gave a wrong, incomplete, or confusing result
+labels: [bug]
+body:
+  - type: input
+    id: url
+    attributes:
+      label: URL inspected
+      description: A public page, if you can share it.
+    validations:
+      required: true
+  - type: dropdown
+    id: tool
+    attributes:
+      label: Agent and browser tool
+      options:
+        - Claude Code with Playwright CLI
+        - Claude Code with Playwright MCP
+        - claude.ai (static mode)
+        - Other agent
+        - Not sure
+    validations:
+      required: true
+  - type: textarea
+    id: wrong
+    attributes:
+      label: What was wrong or missing
+      description: Quote the part of the report and say what you expected.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: thooku version
+      placeholder: v1.2.0

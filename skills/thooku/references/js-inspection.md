@@ -1,8 +1,12 @@
 # Thooku JavaScript and motion inspection
 
-Three Playwright CLI probes live in `scripts/`. Each file's header comment explains its use. They need a running browser session (`playwright-cli open <url>`, or `browser_navigate` on a Playwright MCP; see `tooling.md`). With an MCP, pass the file's contents to `browser_run_code` instead of using `--filename`.
+Three Playwright CLI probes and one Claude in Chrome probe live in `scripts/`. Each file's header comment explains its use. They need a running browser session (`playwright-cli open <url>`, or `browser_navigate` on a Playwright MCP; see `tooling.md`). With an MCP, pass the file's contents to `browser_run_code` instead of using `--filename`.
 
 Do not deobfuscate, reformat, or reproduce proprietary JavaScript. Read loaded scripts only to identify libraries and behavior.
+
+## Running a probe in Claude in Chrome
+
+Claude in Chrome has no Playwright `page`. `stack-probe.js` and `animations-probe.js` run through `javascript_tool` once you unwrap them, and motion uses `chrome-motion-probe.js` instead of `motion-probe.js`. The steps are in `tooling.md`, Option A1. The result fields are the same as below.
 
 ## Running a probe
 

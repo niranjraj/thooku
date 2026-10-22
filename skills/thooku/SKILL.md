@@ -61,9 +61,10 @@ Do not ask questions that are not necessary to begin.
 ### Phase 0 — Tooling preflight
 1. Check for a browser tool in this order, and use the first one found:
    - a Playwright MCP server already connected (tools such as `browser_navigate` and `browser_run_code`, from any plugin or config);
+   - Claude in Chrome (tools named `mcp__claude-in-chrome__*`; if only `enable__mcp__claude-in-chrome` is present, call it first). It uses the user's real Chrome and sign-ins, so inspect only the pages the user asked for. See `references/tooling.md`;
    - `playwright-cli --help`, then `npx playwright-cli --help`;
    - any other browser tool you already have.
-   Thooku does not bundle a browser server. Never add a second Playwright MCP when one is already connected.
+   Thooku does not bundle a browser server. Never add a second Playwright MCP when one is already connected. If both Playwright and Claude in Chrome are available, prefer Playwright: it runs in a clean profile and can trigger and measure in one call.
 2. If none is available, ask the user before installing anything. Offer the Playwright MCP (`claude mcp add playwright -- npx @playwright/mcp@latest`) or the CLI (`npm install -g @playwright/cli@latest`, plus Chrome, or `playwright-cli install-browser chromium` and then `--browser=chromium` on `open`). State that the Chromium download is about 120 MB. See `references/tooling.md`.
 3. If the user declines or the install fails, use static mode and say that dynamic behavior is unverified.
 4. Record the tool and version in Inspection coverage.
