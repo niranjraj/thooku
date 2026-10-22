@@ -5,6 +5,7 @@ All notable changes to thooku are documented here. The format follows [Keep a Ch
 ## [Unreleased]
 
 ### Added
+- Blocked-access handling: `scripts/access-probe.js` classifies a loaded page as `ok`, `blocked`, `challenge`, `login`, or `unclear`. `references/blocked-access.md` sets a fallback ladder (owner-published sources, the user's own browser, user-supplied HTML or screenshots, archived copy, owner allow-list) and bans spoofing and challenge solving. Phase 1 stops on a block and reports it.
 - Claude in Chrome support: Phase 0 detects the extension's `mcp__claude-in-chrome__*` tools, `references/tooling.md` has a tool mapping and session rules, and `scripts/chrome-motion-probe.js` measures motion without a single trigger-and-measure call.
 - README note on using thooku on claude.ai (static mode), and an `examples/` folder with contribution steps.
 - `CONTRIBUTING.md`, issue templates, a pull request template, and a README invitation to contribute.

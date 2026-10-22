@@ -71,7 +71,8 @@ Do not ask questions that are not necessary to begin.
 
 ### Phase 1 — Scope and access
 1. Normalize the URL and identify its origin and likely page type.
-2. Check whether the page is reachable without login and whether it redirects.
+2. Check whether the page is reachable without login and whether it redirects. With a browser tool, run `scripts/access-probe.js` right after the first navigation.
+   - If `verdict` is `blocked`, `challenge`, or `login`, stop inspecting that origin. Do not retry, spoof a browser, or solve the challenge. Follow `references/blocked-access.md`: use owner-published sources, the user's own browser, or material the user supplies. Report the block in Inspection coverage.
 3. Inspect `robots.txt` and sitemap when relevant and accessible; treat them as guidance, not permission to bypass access controls.
 4. Limit crawl scope to the same origin unless the user explicitly asks for linked third-party flows.
 5. Record the inspection date, URL, viewport, browser/tool used, and any access limitations.

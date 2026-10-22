@@ -221,7 +221,7 @@ node tests/frontmatter.mjs
 skills/thooku/SKILL.md               the skill: workflow and output contract
 skills/thooku/references/tooling.md  free-first browser tooling setup
 skills/thooku/references/js-inspection.md  how to run and read the probes
-skills/thooku/scripts/               Browser probes: stack, animations, motion (Playwright CLI and Claude in Chrome)
+skills/thooku/scripts/               Browser probes: access, stack, animations, motion (Playwright CLI and Claude in Chrome)
 .claude-plugin/marketplace.json      Claude Code plugin marketplace manifest
 tests/frontmatter.mjs                frontmatter and reference checks
 examples/                            sample reports for public sites

@@ -17,6 +17,17 @@ playwright-cli run-code --filename=<skill-dir>/scripts/animations-probe.js
 
 Each CLI command takes about 1 s. Use `npx playwright-cli` if the CLI is project-local. (`npx playwright cli` is a different package.)
 
+## access-probe.js
+
+Run it first, right after navigation. It reads the loaded page and says whether it is the real site or a block. It never clicks or waits out a challenge. What to do with each `verdict` is in `blocked-access.md`.
+
+| Field | Meaning |
+| --- | --- |
+| `verdict` | `ok`, `blocked`, `challenge`, `login`, or `unclear` |
+| `status` | HTTP status of the navigation, or `null` if the browser does not report it |
+| `signals` | Matched signals: `http-<code>`, `challenge-text`, `captcha-widget`, `denied-text`, `login-wall`, `near-empty-body` |
+| `title`, `url`, `redirected` | Final title, final URL, whether a redirect happened |
+
 ## stack-probe.js
 
 Detects frameworks (Next, Nuxt, React, Vue, Svelte, Astro, Angular, Gatsby, Remix, Webflow, Framer, WordPress, Shopify) and motion libraries (GSAP, ScrollTrigger, Lenis, Locomotive, Barba, Swup, AOS, Lottie, Rive, Three.js, Swiper, Splide, Embla, Framer Motion, View Transitions). Run it once per template, after the page has loaded.

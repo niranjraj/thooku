@@ -131,7 +131,7 @@ Use `curl` plus Python HTML/CSS parsers if browser automation is unavailable. Th
 Avoid requiring paid visual-scraping SaaS, hosted browser APIs, paid screenshot APIs, commercial font subscriptions, or proprietary icon packs. If the target uses a paid font or icon set, identify a genuinely free licensed substitute (for example, a system font stack, a suitable Google Fonts family, or Lucide icons) and state any visual differences. Check current licenses and terms before redistribution.
 
 ## Operational notes
-- Browser automation may fail on sites with bot protection, login requirements, or unusual rendering. Do not bypass these protections.
+- Browser automation may fail on sites with bot protection, login requirements, or unusual rendering. Do not bypass these protections. Detect them with `scripts/access-probe.js` and follow `blocked-access.md`.
 - Public availability does not imply permission to reuse copyrighted images, text, logos, or source code.
 - Browser access and dependency installation may be unavailable in some Claude surfaces. In that case, report the limitation and provide a static-analysis plan.
 
