@@ -31,6 +31,12 @@
 
 It works from evidence, not screenshots alone. Every value in the report is labeled `Observed`, `Measured`, `Inferred`, or `Unknown`, so you know which numbers to trust.
 
+<p align="center">
+  <video src="https://github.com/niranjraj/thooku/raw/main/assets/thooku-demo.mp4" controls muted width="100%"></video>
+</p>
+
+<p align="center"><a href="assets/thooku-demo.mp4">Watch the demo video</a></p>
+
 ## Install
 
 ```bash
