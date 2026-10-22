@@ -31,11 +31,9 @@
 
 It works from evidence, not screenshots alone. Every value in the report is labeled `Observed`, `Measured`, `Inferred`, or `Unknown`, so you know which numbers to trust.
 
-<p align="center"><a href="assets/
-
-https://github.com/user-attachments/assets/56e005d0-644c-4718-91ac-369b524a809d
-
-thooku-demo.mp4">Watch the demo video</a></p>
+<p align="center">
+  <img src="assets/thooku-demo.gif" alt="thooku demo: from a URL to design tokens, components, and a rebuild plan" width="100%" />
+</p>
 
 ## Install
 
