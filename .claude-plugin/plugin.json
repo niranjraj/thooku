@@ -1,0 +1,12 @@
+{
+  "name": "thooku",
+  "description": "Website design reconnaissance for coding agents. Turn URLs into design tokens, motion specs, component inventories, and a free-first rebuild plan.",
+  "version": "1.1.0",
+  "author": {
+    "name": "Niranj Raj"
+  },
+  "homepage": "https://github.com/niranjraj/thooku",
+  "repository": "https://github.com/niranjraj/thooku",
+  "license": "MIT",
+  "keywords": ["skills", "design", "design-system", "reverse-engineering", "frontend", "animation"]
+}
